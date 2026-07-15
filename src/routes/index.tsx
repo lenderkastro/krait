@@ -423,4 +423,3 @@ function TelegramIcon({ className = "" }: { className?: string }) {
     </svg>
   );
 }
-}
