@@ -243,15 +243,6 @@ function BotPreview() {
   );
 }
 
-function Stat({ value, label }: { value: string; label: string }) {
-  return (
-    <div>
-      <div className="font-display text-2xl font-semibold md:text-3xl" style={{ color: "var(--krait)" }}>{value}</div>
-      <div className="mt-1 text-xs text-muted-foreground md:text-sm">{label}</div>
-    </div>
-  );
-}
-
 function HowItWorks() {
   const steps = [
     { n: "01", title: "Send crypto to the bot", desc: "Pick your asset and network. Krait quotes a locked rate and gives you a one-time deposit address." },
