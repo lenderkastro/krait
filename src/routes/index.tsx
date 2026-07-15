@@ -119,56 +119,126 @@ function Header() {
 function Hero() {
   return (
     <section className="relative overflow-hidden border-b border-border/60">
-      <div className="absolute inset-0 grid-bg opacity-60" />
       <div
-        className="absolute left-1/2 top-0 h-[520px] w-[520px] -translate-x-1/2 rounded-full blur-3xl"
-        style={{ background: "radial-gradient(circle, color-mix(in oklab, var(--krait) 22%, transparent), transparent 70%)" }}
+        className="pointer-events-none absolute left-[15%] top-[10%] h-96 w-96 rounded-full blur-[120px]"
+        style={{ background: "color-mix(in oklab, var(--krait) 18%, transparent)" }}
       />
-      <div className="relative mx-auto max-w-6xl px-5 pb-24 pt-20 md:pt-28">
-        <div className="mx-auto max-w-3xl text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-secondary/40 px-3 py-1 text-xs text-muted-foreground">
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-60" style={{ background: "var(--neon)" }} />
-              <span className="relative inline-flex h-2 w-2 rounded-full" style={{ background: "var(--neon)" }} />
-            </span>
-            <span>Live on Telegram · @kraitrampbot</span>
-          </div>
+      <div
+        className="pointer-events-none absolute bottom-[5%] right-[10%] h-96 w-96 rounded-full blur-[120px]"
+        style={{ background: "color-mix(in oklab, var(--neon) 12%, transparent)" }}
+      />
+      <div className="absolute inset-0 grid-bg opacity-30" />
 
-          <h1 className="mt-8 text-balance text-5xl font-bold leading-[1.05] tracking-tight md:text-7xl">
-            Sell crypto.<br />
-            Get naira in{" "}
-            <span className="relative inline-block">
-              <span style={{ color: "var(--neon)" }}>under 5 minutes.</span>
-            </span>
-          </h1>
-
-          <p className="mx-auto mt-6 max-w-xl text-balance text-lg text-muted-foreground md:text-xl">
-            Krait is a Telegram bot that settles USDT, BTC, ETH and more directly to your Nigerian bank account. No sign-up forms. No waiting.
-          </p>
-
-          <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <TelegramButton size="lg">Start on Telegram</TelegramButton>
-            <a href="#how" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-              See how it works →
-            </a>
-          </div>
-
-          <div className="mt-14 grid grid-cols-3 gap-4 border-t border-border/60 pt-8 text-left">
-            <Stat value="< 5 min" label="Settlement, guaranteed" />
-            <Stat value="10+" label="Cryptocurrencies" />
-            <Stat value="3%" label="Flat markup, no extras" />
-          </div>
+      <div className="relative mx-auto flex max-w-5xl flex-col items-center px-5 pb-24 pt-20 text-center md:pt-28">
+        <div
+          className="inline-flex items-center gap-2 rounded-full border px-3 py-1"
+          style={{
+            background: "color-mix(in oklab, var(--neon) 10%, transparent)",
+            borderColor: "color-mix(in oklab, var(--neon) 25%, transparent)",
+          }}
+        >
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-75" style={{ background: "var(--neon)" }} />
+            <span className="relative inline-flex h-2 w-2 rounded-full" style={{ background: "var(--neon)" }} />
+          </span>
+          <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: "var(--neon)" }}>
+            Fastest Crypto-to-Naira Bot
+          </span>
         </div>
+
+        <h1 className="mt-8 text-balance text-5xl font-extrabold leading-[1.1] tracking-tight md:text-7xl">
+          Sell Crypto for{" "}
+          <span
+            className="bg-clip-text text-transparent"
+            style={{ backgroundImage: "linear-gradient(90deg, var(--krait), #e0c57d)" }}
+          >
+            Naira
+          </span>
+          <br className="hidden md:block" />
+          in under 5 minutes.
+        </h1>
+
+        <p className="mt-6 max-w-xl text-balance text-lg leading-relaxed text-muted-foreground">
+          Krait is the high-speed Telegram bot designed for the Nigerian market. Secure, automated, and built for professionals who value their time.
+        </p>
+
+        <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row">
+          <a
+            href={TG_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-2 rounded-xl px-8 py-4 text-base font-bold transition-all duration-300 active:scale-95"
+            style={{
+              background: "var(--neon)",
+              color: "#000",
+              boxShadow: "0 0 0 rgba(46,255,107,0)",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.boxShadow = "0 0 25px -5px color-mix(in oklab, var(--neon) 50%, transparent)")}
+            onMouseLeave={(e) => (e.currentTarget.style.boxShadow = "0 0 0 rgba(46,255,107,0)")}
+          >
+            <TelegramIcon className="h-4 w-4" />
+            Start Selling on Telegram
+          </a>
+          <a
+            href="#assets"
+            className="rounded-xl border border-border px-8 py-4 text-base font-semibold text-foreground/80 transition-colors hover:bg-secondary"
+          >
+            View Live Rates
+          </a>
+        </div>
+
+        <BotPreview />
       </div>
     </section>
   );
 }
 
-function Stat({ value, label }: { value: string; label: string }) {
+function BotPreview() {
   return (
-    <div>
-      <div className="font-display text-2xl font-semibold md:text-3xl" style={{ color: "var(--krait)" }}>{value}</div>
-      <div className="mt-1 text-xs text-muted-foreground md:text-sm">{label}</div>
+    <div className="relative mt-16 w-full max-w-2xl overflow-hidden rounded-2xl border border-border bg-card/40 p-1 shadow-2xl backdrop-blur-xl">
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{ background: "linear-gradient(135deg, color-mix(in oklab, var(--krait) 6%, transparent), transparent)" }}
+      />
+      <div className="relative overflow-hidden rounded-xl bg-background">
+        <div className="flex items-center justify-between border-b border-border bg-secondary/40 px-4 py-3">
+          <div className="flex gap-1.5">
+            <div className="h-3 w-3 rounded-full bg-muted" />
+            <div className="h-3 w-3 rounded-full bg-muted" />
+            <div className="h-3 w-3 rounded-full bg-muted" />
+          </div>
+          <span className="font-mono text-[10px] font-medium tracking-widest text-muted-foreground">
+            KRAIT TELEGRAM BOT
+          </span>
+          <div className="w-6" />
+        </div>
+        <div className="space-y-6 p-6 text-left">
+          <div className="flex items-start gap-3">
+            <div
+              className="h-8 w-8 flex-shrink-0 rounded-full"
+              style={{ background: "linear-gradient(135deg, var(--krait), var(--neon))" }}
+            />
+            <div className="max-w-[80%] rounded-2xl rounded-tl-none bg-secondary p-4">
+              <p className="text-sm text-foreground">
+                Welcome to Krait. You're about to sell $500 USDT. The current rate is{" "}
+                <span className="font-semibold" style={{ color: "var(--neon)" }}>1,620 ₦/$</span>.
+              </p>
+            </div>
+          </div>
+          <div className="flex items-start justify-end gap-3">
+            <div
+              className="rounded-2xl rounded-tr-none border p-4"
+              style={{
+                background: "color-mix(in oklab, var(--neon) 10%, transparent)",
+                borderColor: "color-mix(in oklab, var(--neon) 25%, transparent)",
+                color: "var(--neon)",
+              }}
+            >
+              <p className="text-sm font-semibold italic">Confirming payout to Kuda Bank account...</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
