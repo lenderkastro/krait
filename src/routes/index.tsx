@@ -18,7 +18,10 @@ import {
   Lock,
   X,
   BookOpen,
+  Activity,
 } from "lucide-react";
+
+import { useRates } from "../hooks/useRates";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -60,11 +63,11 @@ export const BLOG_POSTS = [
 ];
 
 export const ASSETS = [
-  { sym: "USDT", name: "Tether", rate: 1620, min: 10, icon: TetherIcon },
-  { sym: "BTC", name: "Bitcoin", rate: 110400000, min: 0.0002, icon: BitcoinIcon },
-  { sym: "ETH", name: "Ethereum", rate: 5750000, min: 0.005, icon: EthereumIcon },
-  { sym: "SOL", name: "Solana", rate: 290000, min: 0.1, icon: SolanaIcon },
-  { sym: "LTC", name: "Litecoin", rate: 150000, min: 0.05, icon: LitecoinIcon },
+  { sym: "USDT", name: "Tether", fallbackRate: 1393, min: 10, icon: TetherIcon },
+  { sym: "BTC", name: "Bitcoin", fallbackRate: 89040573, min: 0.0002, icon: BitcoinIcon },
+  { sym: "ETH", name: "Ethereum", fallbackRate: 2573943, min: 0.005, icon: EthereumIcon },
+  { sym: "SOL", name: "Solana", fallbackRate: 105004, min: 0.1, icon: SolanaIcon },
+  { sym: "LTC", name: "Litecoin", fallbackRate: 62698, min: 0.05, icon: LitecoinIcon },
 ];
 
 const NETWORKS = [
@@ -157,6 +160,9 @@ function Index() {
       <main ref={mainRef}>
         <Hero />
         <div className="scroll-reveal">
+          <LiveRatesTicker />
+        </div>
+        <div className="scroll-reveal" data-delay="1">
           <CalculatorSection />
         </div>
         <div className="scroll-reveal" data-delay="1">
@@ -376,11 +382,13 @@ function Hero() {
 }
 
 function CalculatorSection() {
+  const rates = useRates();
   const [amount, setAmount] = useState<number>(100);
   const [selectedAsset, setSelectedAsset] = useState(ASSETS[0]);
   const [copied, setCopied] = useState(false);
 
-  const rate = selectedAsset.rate;
+  // Use live rate if available, otherwise fallback
+  const rate = (rates && rates[selectedAsset.sym]) ? rates[selectedAsset.sym] : selectedAsset.fallbackRate;
   const payout = amount * rate;
 
   const handleAssetChange = (sym: string) => {
@@ -508,7 +516,7 @@ function CalculatorSection() {
                   Current Rate
                 </span>
                 <span className="font-mono text-sm font-bold text-primary">
-                  1 {selectedAsset.sym} = {selectedAsset.rate.toLocaleString()} ₦
+                  1 {selectedAsset.sym} = {rate.toLocaleString()} ₦
                 </span>
               </div>
 
@@ -1413,5 +1421,53 @@ export function LitecoinIcon({ className = "" }: { className?: string }) {
         </linearGradient>
       </defs>
     </svg>
+  );
+}
+
+function LiveRatesTicker() {
+  const liveRates = useRates();
+
+  // Use fallback rates while loading
+  const rates: Record<string, number> = liveRates || {
+    USDT: 1393,
+    BTC: 89040573,
+    ETH: 2573943,
+    SOL: 105004,
+    LTC: 62698,
+    BNB: 789747,
+    TON: 2228,
+  };
+
+  const isLive = !!liveRates;
+  const keys = ["USDT", "BTC", "ETH", "BNB", "SOL", "TON"];
+
+  return (
+    <section className="border-b border-border/40 py-4 bg-secondary/10 shadow-bottom z-10 relative overflow-hidden">
+      <div className="mx-auto max-w-6xl px-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="flex items-center gap-2 flex-shrink-0">
+          <Activity className={`h-5 w-5 ${isLive ? "text-primary animate-pulse-soft" : "text-muted-foreground animate-pulse"}`} />
+          <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-muted-foreground flex items-center gap-1.5">
+            {isLive ? "Live Krait Rates" : "Estimated Rates"}
+            {!isLive && <span className="bg-background border border-border/40 px-1.5 py-0.5 rounded text-[8px]">Fetching...</span>}
+          </span>
+        </div>
+        
+        <div className="flex items-center gap-4 flex-1 justify-start md:justify-end overflow-x-auto no-scrollbar py-2 -my-2 select-none snap-x snap-mandatory">
+          {keys.map((sym) => {
+            if (!rates[sym]) return null;
+            return (
+              <div
+                key={sym}
+                className={`px-4 py-2 rounded-xl bg-card border border-border/40 flex items-center gap-2 text-[11px] font-mono shadow-sm shrink-0 snap-center transition-all duration-500 ${isLive ? 'border-primary/20' : 'opacity-70'}`}
+              >
+                <span className="font-bold text-foreground">{sym}</span>
+                <span className="text-muted-foreground">→</span>
+                <span className="font-bold text-primary">₦{rates[sym].toLocaleString()}</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
   );
 }
