@@ -78,10 +78,6 @@ const NETWORKS = [
 
 const FAQS = [
   {
-    q: "Is there any sign-up form or KYC requirement?",
-    a: "Absolutely not. We have eliminated all sign-up forms. You simply start the Telegram bot, link your payout bank account once, and you are ready to trade immediately. We value your speed and minimal friction.",
-  },
-  {
     q: "How does the 5-minute settlement guarantee work?",
     a: "Every trade is tracked with a smart countdown timer. If Naira does not hit your bank account within 5 minutes from the moment your transaction confirms on the blockchain, Krait automatically credits a 1% rate bonus to your payout. No support tickets or forms are needed — it is hard-coded into our payout system.",
   },
@@ -190,18 +186,19 @@ export function TelegramButton({
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-40 border-b border-border/40 bg-background/60 backdrop-blur-xl transition-all duration-300">
-      <div className="mx-auto flex h-36 max-w-6xl items-center justify-between px-6">
-        <div className="flex items-center gap-2.5">
+    <header className="sticky top-0 z-40 border-b border-border/40 bg-background/60 backdrop-blur-xl transition-all duration-300 shadow-bottom">
+      <div className="mx-auto flex h-16 md:h-20 max-w-6xl items-center justify-between px-4 sm:px-6">
+        <div className="flex items-center gap-2">
           <Link to="/">
-            <Logo className="h-28 w-auto object-contain" />
+            <Logo className="h-8 sm:h-10 md:h-12 w-auto object-contain" />
           </Link>
         </div>
-        <nav className="hidden items-center gap-8 text-sm font-medium text-muted-foreground md:flex">
+        <nav className="flex items-center gap-3 sm:gap-6 md:gap-8 text-xs md:text-sm font-medium text-muted-foreground">
+          <a href="/#faq" className="hover:text-foreground transition-colors">FAQ</a>
           <Link to="/blog" className="hover:text-foreground transition-colors">Blog</Link>
         </nav>
-        <div className="flex items-center gap-4">
-          <TelegramButton size="md" variant="ghost">Open Bot</TelegramButton>
+        <div className="flex items-center gap-2">
+          <TelegramButton size="md" variant="ghost" className="px-3 py-1.5 text-xs sm:px-5 sm:py-2.5 sm:text-sm">Open Bot</TelegramButton>
         </div>
       </div>
     </header>
@@ -210,7 +207,7 @@ export function Header() {
 
 function Hero() {
   return (
-    <section className="relative overflow-hidden border-b border-border/40 py-20 lg:py-32 bg-pattern-transparent">
+    <section className="relative overflow-hidden border-b border-border/40 py-10 md:py-20 lg:py-32 bg-pattern-transparent shadow-bottom z-10">
       {/* Background Gradients */}
       <div
         className="pointer-events-none absolute left-[10%] top-[10%] h-[500px] w-[500px] rounded-full blur-[140px] opacity-35"
@@ -256,7 +253,7 @@ function Hero() {
           </span>
         </div>
 
-        <h1 className="mt-8 text-balance text-5xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl md:text-7xl">
+        <h1 className="mt-8 text-balance text-4xl sm:text-6xl md:text-7xl font-extrabold leading-[1.05] tracking-tight">
           From Crypto to Cash.
           <br />
           No sign up forms.
@@ -285,7 +282,7 @@ function Hero() {
         </div>
 
         {/* Feature Highlights */}
-        <div className="mt-20 grid w-full max-w-4xl grid-cols-1 gap-6 sm:grid-cols-3">
+        <div className="mt-12 md:mt-20 grid w-full max-w-4xl grid-cols-1 gap-6 sm:grid-cols-3">
           <div className="flex flex-col items-center p-6 rounded-2xl glass-card border border-border/40">
             <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xl">
               <Zap className="h-5 w-5" />
@@ -336,7 +333,7 @@ function CalculatorSection() {
   const SelectedAssetIcon = selectedAsset.icon;
 
   return (
-    <section id="calculator" className="border-b border-border/40 py-24 relative">
+    <section id="calculator" className="border-b border-border/40 py-12 md:py-24 relative shadow-bottom z-10">
       <div className="mx-auto max-w-6xl px-6">
         <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
           <div className="space-y-6">
@@ -494,7 +491,7 @@ function SimulatorSection() {
   ];
 
   return (
-    <section id="how" className="border-b border-border/40 py-24 bg-secondary/5 relative">
+    <section id="how" className="border-b border-border/40 py-12 md:py-24 bg-secondary/5 relative shadow-bottom z-10">
       <div className="mx-auto max-w-6xl px-6">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <div className="font-mono text-xs font-bold uppercase tracking-widest text-primary">Simple Interface</div>
@@ -528,7 +525,7 @@ function SimulatorSection() {
           </div>
 
           {/* Telegram Device Screenshot Simulator */}
-          <div className="mx-auto w-full max-w-[360px] h-[640px] rounded-[42px] border-[10px] border-border bg-black shadow-2xl relative overflow-hidden flex flex-col">
+          <div className="mx-auto w-full max-w-[300px] sm:max-w-[360px] h-[540px] sm:h-[640px] rounded-[42px] border-[10px] border-border bg-black shadow-2xl relative overflow-hidden flex flex-col">
             {/* Phone Speaker & Camera Notch */}
             <div className="absolute top-0 inset-x-0 h-6 bg-black z-30 flex justify-center items-center">
               <div className="w-16 h-4 bg-zinc-900 rounded-full flex justify-center items-center gap-1.5">
@@ -584,17 +581,17 @@ function SocialProofTicker() {
   }, []);
 
   return (
-    <section className="border-b border-border/40 py-8 bg-secondary/15 overflow-hidden">
-      <div className="mx-auto max-w-6xl px-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
+    <section className="border-b border-border/40 py-4 md:py-8 bg-secondary/15 overflow-hidden shadow-bottom z-10 relative">
+      <div className="mx-auto max-w-6xl px-6 flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-6">
         <div className="flex items-center gap-2 flex-shrink-0">
           <TrendingUp className="h-5 w-5 text-accent animate-pulse-soft" />
           <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Live Transaction Activity</span>
         </div>
-        <div className="grid grid-cols-2 md:flex md:items-center gap-4 flex-1 justify-end">
+        <div className="flex items-center gap-3 flex-1 justify-start md:justify-end overflow-x-auto no-scrollbar py-2 -my-2 select-none snap-x snap-mandatory">
           {trades.map((trade) => (
             <div
               key={trade.id}
-              className="px-4 py-2.5 rounded-xl bg-card border border-border/40 flex items-center gap-3 text-[11px] font-mono shadow-sm"
+              className="px-4 py-2.5 rounded-xl bg-card border border-border/40 flex items-center gap-3 text-[11px] font-mono shadow-sm shrink-0 snap-center"
             >
               <div className="h-2 w-2 rounded-full bg-accent" />
               <div>
@@ -616,7 +613,7 @@ function SocialProofTicker() {
 
 function VisualProofsSection() {
   return (
-    <section id="proofs" className="border-b border-border/40 py-24 bg-background">
+    <section id="proofs" className="border-b border-border/40 py-12 md:py-24 bg-background shadow-bottom z-10 relative">
       <div className="mx-auto max-w-6xl px-6">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <div className="font-mono text-xs font-bold uppercase tracking-widest text-primary">On-Chain Proof</div>
@@ -668,15 +665,15 @@ function GuaranteeSection() {
   };
 
   return (
-    <section className="border-b border-border/40 py-24">
+    <section className="border-b border-border/40 py-12 md:py-24 shadow-bottom z-10 relative">
       <div className="mx-auto max-w-6xl px-6">
-        <div className="glass-card rounded-[32px] border border-border/60 p-8 md:p-16 relative overflow-hidden">
+        <div className="glass-card rounded-[32px] border border-border/60 p-6 sm:p-10 md:p-16 relative overflow-hidden">
           <div
             className="absolute -right-24 -top-24 h-80 w-80 rounded-full blur-[100px] opacity-25"
             style={{ background: "color-mix(in oklab, var(--neon) 20%, transparent)" }}
           />
-          <div className="relative grid gap-12 lg:grid-cols-[1.2fr_1fr] lg:items-center">
-            <div className="space-y-6">
+          <div className="relative grid gap-8 md:gap-12 lg:grid-cols-[1.2fr_1fr] lg:items-center">
+            <div className="space-y-4 md:space-y-6">
               <div className="font-mono text-xs font-bold uppercase tracking-widest text-primary">The 5-Minute Promise</div>
               <h2 className="text-4xl font-extrabold tracking-tight sm:text-5xl leading-tight font-display">
                 Under 5 minutes,<br />
@@ -752,7 +749,7 @@ function ReferralCalculator() {
   const commissionNaira = commissionUsd * 1620;
 
   return (
-    <section id="referral" className="border-b border-border/40 py-24 bg-secondary/5">
+    <section id="referral" className="border-b border-border/40 py-12 md:py-24 bg-secondary/5 shadow-bottom z-10 relative">
       <div className="mx-auto max-w-6xl px-6">
         <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
           <div className="space-y-6">
@@ -781,7 +778,7 @@ function ReferralCalculator() {
             </div>
           </div>
 
-          <div className="glass-card rounded-3xl border border-border/60 p-8 shadow-2xl space-y-6">
+          <div className="glass-card rounded-3xl border border-border/60 p-5 sm:p-8 shadow-2xl space-y-6">
             <div>
               <div className="flex justify-between items-baseline">
                 <label className="text-xs font-bold tracking-wider uppercase text-muted-foreground">Monthly Referred Trading Volume</label>
@@ -833,7 +830,7 @@ function ReferralCalculator() {
 
 function AssetsSection() {
   return (
-    <section id="assets" className="border-b border-border/40 py-24">
+    <section id="assets" className="border-b border-border/40 py-12 md:py-24 shadow-bottom z-10 relative">
       <div className="mx-auto max-w-6xl px-6">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <div className="font-mono text-xs font-bold uppercase tracking-widest text-primary">Liquidity & Networks</div>
@@ -883,7 +880,7 @@ function FAQSection() {
   };
 
   return (
-    <section id="faq" className="border-b border-border/40 py-24 bg-secondary/5">
+    <section id="faq" className="border-b border-border/40 py-12 md:py-24 bg-secondary/5 shadow-bottom z-10 relative">
       <div className="mx-auto max-w-4xl px-6">
         <div className="text-center mb-16">
           <div className="font-mono text-xs font-bold uppercase tracking-widest text-primary">Frequently Asked</div>
@@ -912,7 +909,7 @@ function FAQSection() {
                     isOpen ? "max-h-[300px] border-t border-border/40 opacity-100 font-normal" : "max-h-0 opacity-0 pointer-events-none"
                   }`}
                 >
-                  <p className="p-6 text-sm text-muted-foreground leading-relaxed whitespace-pre-line">{faq.a}</p>
+                  <p className="p-5 sm:p-6 text-sm text-muted-foreground leading-relaxed whitespace-pre-line">{faq.a}</p>
                 </div>
               </div>
             );
@@ -925,12 +922,12 @@ function FAQSection() {
 
 function FinalCTA() {
   return (
-    <section className="py-28 relative overflow-hidden">
+    <section className="py-14 md:py-28 relative overflow-hidden shadow-bottom z-10">
       <div
         className="pointer-events-none absolute inset-x-0 top-0 h-96 rounded-full blur-[140px] opacity-20 mx-auto"
         style={{ background: "color-mix(in oklab, var(--krait) 25%, var(--neon))", maxWidth: "600px" }}
       />
-      <div className="mx-auto max-w-3xl px-6 text-center space-y-8 relative">
+      <div className="mx-auto max-w-3xl px-6 text-center space-y-6 md:space-y-8 relative">
         <h2 className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl font-display">
           Naira in your bank account in under 5 minutes.
         </h2>
@@ -948,10 +945,10 @@ function FinalCTA() {
 
 export function Footer() {
   return (
-    <footer className="border-t border-border/40 py-16 bg-secondary/15 text-xs text-muted-foreground bg-pattern-transparent">
-      <div className="mx-auto max-w-6xl px-6 flex flex-col md:flex-row justify-between gap-10">
+    <footer className="border-t border-border/40 py-10 md:py-16 bg-secondary/15 text-xs text-muted-foreground bg-pattern-transparent">
+      <div className="mx-auto max-w-6xl px-6 flex flex-col md:flex-row justify-between gap-8 md:gap-10">
         <div className="space-y-4">
-          <Logo className="h-28 w-auto object-contain" />
+          <Logo className="h-12 w-auto object-contain" />
           <p className="leading-relaxed">
             Krait Technologies Ltd.<br />
             CAC RC 9560022<br />
@@ -970,6 +967,15 @@ export function Footer() {
           </div>
 
           <div className="space-y-3">
+            <h4 className="font-bold text-foreground uppercase tracking-wider text-[10px]">Community</h4>
+            <ul className="space-y-2">
+              <li><a href="https://x.com/Kraitrampbot" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">Twitter / X</a></li>
+              <li><a href="https://www.instagram.com/kraitrampbot" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">Instagram</a></li>
+              <li><a href={TG_URL} target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">Telegram Bot</a></li>
+            </ul>
+          </div>
+
+          <div className="space-y-3">
             <h4 className="font-bold text-foreground uppercase tracking-wider text-[10px]">Support & Legal</h4>
             <ul className="space-y-2">
               <li><a href="#faq" className="hover:text-foreground transition-colors">FAQ</a></li>
@@ -980,7 +986,7 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-6xl px-6 mt-12 pt-8 border-t border-border/10 flex flex-col sm:flex-row justify-between items-center gap-4 text-[10px]">
+      <div className="mx-auto max-w-6xl px-6 mt-8 pt-6 md:mt-12 md:pt-8 border-t border-border/10 flex flex-col sm:flex-row justify-between items-center gap-4 text-[10px]">
         <span>© {new Date().getFullYear()} Krait. All Rights Reserved.</span>
         <span>Made for speed & convenience.</span>
       </div>

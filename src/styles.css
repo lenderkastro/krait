@@ -90,6 +90,7 @@
   --ring: oklch(0.72 0.12 85);
   --neon: #059669;
   --krait: #bda247;
+  --section-shadow: 0 10px 30px -10px oklch(0.18 0.008 260 / 6%), 0 1px 3px -1px oklch(0.18 0.008 260 / 8%);
   --glass-bg: oklch(1.00 0.000 0 / 70%);
   --glass-border: oklch(0.18 0.008 260 / 8%);
   --bg-pattern-filter: invert(0.85);
@@ -129,6 +130,7 @@
   --border: oklch(1 0 0 / 8%);
   --input: oklch(1 0 0 / 10%);
   --ring: oklch(0.83 0.13 92);
+  --section-shadow: 0 12px 36px -12px oklch(0 0 0 / 35%), 0 1px 4px -1px oklch(0 0 0 / 40%);
   --glass-bg: oklch(0.18 0.008 260 / 60%);
   --glass-border: oklch(1 0 0 / 8%);
   --bg-pattern-filter: none;
@@ -231,3 +233,18 @@
     z-index: 0;
   }
 }
+
+@utility shadow-bottom {
+  position: relative;
+  z-index: 10;
+  box-shadow: var(--section-shadow);
+}
+
+@utility no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+  }
+}
+
