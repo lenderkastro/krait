@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import {
   ArrowRight,
   Check,
@@ -84,7 +84,7 @@ const NETWORKS = [
 const FAQS = [
   {
     q: "How does the 5-minute settlement guarantee work?",
-    a: "Every trade is tracked with a smart countdown timer. If Naira does not hit your bank account within 5 minutes from the moment your transaction confirms on the blockchain, Krait automatically credits a 1% rate bonus to your payout. No support tickets or forms are needed — it is hard-coded into our payout system.",
+    a: "The 5-minute guarantee applies to USDT, SOL, TON, BNB, and other non‑BTC assets. Bitcoin settlements take 20–45 minutes due to blockchain confirmation requirements.",
   },
   {
     q: "What does using Krait cost?",
@@ -118,21 +118,71 @@ const PROOFS = [
   },
 ];
 
+/** Observe all .scroll-reveal children inside `ref` and toggle `.revealed` on enter/leave. */
+function useScrollReveal() {
+  const ref = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("revealed");
+          } else {
+            entry.target.classList.remove("revealed");
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -60px 0px" },
+    );
+
+    const targets = el.querySelectorAll(".scroll-reveal");
+    targets.forEach((t) => observer.observe(t));
+
+    return () => observer.disconnect();
+  }, []);
+
+  return ref;
+}
+
 function Index() {
+  const mainRef = useScrollReveal();
+
   return (
     <div className="min-h-screen bg-background text-foreground font-sans selection:bg-primary selection:text-primary-foreground">
       <Header />
-      <main>
+      <main ref={mainRef}>
         <Hero />
-        <CalculatorSection />
-        <SimulatorSection />
-        <SocialProofTicker />
-        <VisualProofsSection />
-        <GuaranteeSection />
-        <ReferralCalculator />
-        <AssetsSection />
-        <FAQSection />
-        <FinalCTA />
+        <div className="scroll-reveal">
+          <CalculatorSection />
+        </div>
+        <div className="scroll-reveal" data-delay="1">
+          <SimulatorSection />
+        </div>
+        <div className="scroll-reveal">
+          <SocialProofTicker />
+        </div>
+        <div className="scroll-reveal" data-delay="1">
+          <VisualProofsSection />
+        </div>
+        <div className="scroll-reveal" data-delay="2">
+          <GuaranteeSection />
+        </div>
+        <div className="scroll-reveal">
+          <ReferralCalculator />
+        </div>
+        <div className="scroll-reveal" data-delay="1">
+          <AssetsSection />
+        </div>
+        <div className="scroll-reveal" data-delay="2">
+          <FAQSection />
+        </div>
+        <div className="scroll-reveal">
+          <FinalCTA />
+        </div>
       </main>
       <Footer />
     </div>
@@ -189,10 +239,10 @@ export function TelegramButton({
 export function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-border/40 bg-background/60 backdrop-blur-xl transition-all duration-300 shadow-bottom">
-      <div className="mx-auto flex h-16 md:h-20 max-w-6xl items-center justify-between px-4 sm:px-6">
+      <div className="mx-auto flex h-20 md:h-24 max-w-6xl items-center justify-between px-4 sm:px-6">
         <div className="flex items-center gap-2">
           <Link to="/">
-            <Logo className="h-25 sm:h-27 md:h-29 w-auto object-contain" />
+            <Logo className="h-14 sm:h-16 md:h-20 w-auto object-contain" />
           </Link>
         </div>
         <nav className="flex items-center gap-3 sm:gap-6 md:gap-8 text-xs md:text-sm font-medium text-muted-foreground">
@@ -219,7 +269,7 @@ export function Header() {
 
 function Hero() {
   return (
-    <section className="relative overflow-hidden border-b border-border/40 py-10 md:py-20 lg:py-32 bg-pattern-transparent shadow-bottom z-10">
+    <section className="relative overflow-hidden border-b border-border/40 py-4 md:py-6 lg:py-10 bg-pattern-transparent shadow-bottom z-10">
       {/* Background Gradients */}
       <div
         className="pointer-events-none absolute left-[10%] top-[10%] h-[500px] w-[500px] rounded-full blur-[140px] opacity-35"
@@ -244,32 +294,9 @@ function Hero() {
       <div className="absolute hidden lg:flex right-[12%] bottom-[25%] animate-float hover:scale-115 transition-transform duration-300 select-none">
         <EthereumIcon className="h-13 w-13 drop-shadow-lg" />
       </div>
-      <div className="absolute hidden lg:flex left-[35%] top-[12%] animate-float hover:scale-115 transition-transform duration-300 select-none">
-        <TetherIcon className="h-11 w-11 drop-shadow-lg" />
-      </div>
 
       <div className="relative mx-auto flex max-w-6xl flex-col items-center px-6 text-center">
-        <div
-          className="inline-flex items-center gap-2 rounded-full border px-4 py-1.5 backdrop-blur-md"
-          style={{
-            background: "color-mix(in oklab, var(--krait) 8%, transparent)",
-            borderColor: "color-mix(in oklab, var(--krait) 20%, transparent)",
-          }}
-        >
-          <span className="relative flex h-2.5 w-2.5">
-            <span
-              className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"
-              style={{ background: "var(--krait)" }}
-            />
-            <span
-              className="relative inline-flex h-2.5 w-2.5 rounded-full"
-              style={{ background: "var(--krait)" }}
-            />
-          </span>
-          <span className="text-[10px] font-bold uppercase tracking-widest font-mono text-primary"></span>
-        </div>
-
-        <h1 className="mt-8 text-balance text-4xl sm:text-6xl md:text-7xl font-extrabold leading-[1.05] tracking-tight">
+        <h1 className="hero-enter text-balance text-4xl sm:text-6xl md:text-7xl font-extrabold leading-[1.05] tracking-tight">
           From Crypto to Cash.
           <br />
           No sign up forms.
@@ -283,12 +310,18 @@ function Hero() {
           </span>
         </h1>
 
-        <p className="mt-8 max-w-xl text-balance text-base sm:text-lg leading-relaxed text-muted-foreground">
+        <p
+          className="hero-enter mt-6 max-w-xl text-balance text-base sm:text-lg leading-relaxed text-muted-foreground"
+          style={{ animationDelay: "0.15s" }}
+        >
           Sell USDT, BTC, ETH, and other assets instantly to any Nigerian bank. Fully automated
           payout rails. Backed by an automated timing guarantee.
         </p>
 
-        <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row">
+        <div
+          className="hero-enter mt-8 flex flex-col items-center gap-4 sm:flex-row"
+          style={{ animationDelay: "0.3s" }}
+        >
           <TelegramButton size="lg" variant="accent" />
           <a
             href="#calculator"
@@ -299,8 +332,11 @@ function Hero() {
         </div>
 
         {/* Feature Highlights */}
-        <div className="mt-12 md:mt-20 grid w-full max-w-4xl grid-cols-1 gap-6 sm:grid-cols-3">
-          <div className="flex flex-col items-center p-6 rounded-2xl glass-card border border-border/40">
+        <div className="mt-10 md:mt-16 grid w-full max-w-4xl grid-cols-1 gap-6 sm:grid-cols-3">
+          <div
+            className="hero-enter flex flex-col items-center p-6 rounded-2xl glass-card border border-border/40 hover:scale-[1.03] transition-transform duration-300"
+            style={{ animationDelay: "0.45s" }}
+          >
             <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xl">
               <Zap className="h-5 w-5" />
             </div>
@@ -309,7 +345,10 @@ function Hero() {
               Under 5 minutes average, running on completely automated payment rails.
             </p>
           </div>
-          <div className="flex flex-col items-center p-6 rounded-2xl glass-card border border-border/40">
+          <div
+            className="hero-enter flex flex-col items-center p-6 rounded-2xl glass-card border border-border/40 hover:scale-[1.03] transition-transform duration-300"
+            style={{ animationDelay: "0.55s" }}
+          >
             <div className="h-12 w-12 rounded-full bg-accent/10 flex items-center justify-center text-accent text-xl">
               <Coins className="h-5 w-5" />
             </div>
@@ -318,7 +357,10 @@ function Hero() {
               Zero onboarding friction. Initiate trades and get paid immediately via Telegram.
             </p>
           </div>
-          <div className="flex flex-col items-center p-6 rounded-2xl glass-card border border-border/40">
+          <div
+            className="hero-enter flex flex-col items-center p-6 rounded-2xl glass-card border border-border/40 hover:scale-[1.03] transition-transform duration-300"
+            style={{ animationDelay: "0.65s" }}
+          >
             <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xl">
               <Award className="h-5 w-5" />
             </div>
@@ -862,7 +904,7 @@ function GuaranteeSection() {
 }
 
 function ReferralCalculator() {
-  const [volume, setVolume] = useState<number>(10000);
+  const [volume, setVolume] = useState<number>(100);
 
   // Rate: 1620. Markup is 3%. referral cut is 30% of that markup.
   // Commission = volume * 0.03 * 0.30 = volume * 0.009
@@ -924,15 +966,15 @@ function ReferralCalculator() {
               </div>
               <input
                 type="range"
-                min="1000"
+                min="100"
                 max="100000"
-                step="1000"
+                step="100"
                 value={volume}
                 onChange={(e) => setVolume(Number(e.target.value))}
                 className="w-full h-2 bg-secondary rounded-lg appearance-none cursor-pointer mt-4 accent-primary"
               />
               <div className="flex justify-between font-mono text-[9px] text-muted-foreground mt-2">
-                <span>$1,000</span>
+                <span>$100</span>
                 <span>$50,000</span>
                 <span>$100,000</span>
               </div>

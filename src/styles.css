@@ -71,27 +71,28 @@
   /* Krait light fintech palette */
   --background: oklch(0.99 0.002 260);
   --foreground: oklch(0.18 0.008 260);
-  --card: oklch(1.00 0.000 0);
+  --card: oklch(1 0 0);
   --card-foreground: oklch(0.18 0.008 260);
-  --popover: oklch(1.00 0.000 0);
+  --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.18 0.008 260);
-  --primary: oklch(0.72 0.12 85);           /* Krait gold #bda247 */
+  --primary: oklch(0.72 0.12 85); /* Krait gold #bda247 */
   --primary-foreground: oklch(0.99 0.002 260);
   --secondary: oklch(0.96 0.004 260);
   --secondary-foreground: oklch(0.18 0.008 260);
   --muted: oklch(0.96 0.004 260);
-  --muted-foreground: oklch(0.50 0.012 260);
-  --accent: oklch(0.60 0.18 140);           /* Contrast green #059669 */
+  --muted-foreground: oklch(0.5 0.012 260);
+  --accent: oklch(0.6 0.18 140); /* Contrast green #059669 */
   --accent-foreground: oklch(0.99 0.002 260);
-  --destructive: oklch(0.60 0.18 25);
+  --destructive: oklch(0.6 0.18 25);
   --destructive-foreground: oklch(0.99 0.002 260);
   --border: oklch(0.18 0.008 260 / 8%);
   --input: oklch(0.18 0.008 260 / 6%);
   --ring: oklch(0.72 0.12 85);
   --neon: #059669;
   --krait: #bda247;
-  --section-shadow: 0 10px 30px -10px oklch(0.18 0.008 260 / 6%), 0 1px 3px -1px oklch(0.18 0.008 260 / 8%);
-  --glass-bg: oklch(1.00 0.000 0 / 70%);
+  --section-shadow:
+    0 10px 30px -10px oklch(0.18 0.008 260 / 6%), 0 1px 3px -1px oklch(0.18 0.008 260 / 8%);
+  --glass-bg: oklch(1 0 0 / 70%);
   --glass-border: oklch(0.18 0.008 260 / 8%);
   --bg-pattern-filter: invert(0.85);
   --bg-pattern-opacity: 0.05;
@@ -100,7 +101,7 @@
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(1.00 0.000 0);
+  --sidebar: oklch(1 0 0);
   --sidebar-foreground: oklch(0.18 0.008 260);
   --sidebar-primary: oklch(0.72 0.12 85);
   --sidebar-primary-foreground: oklch(0.99 0.002 260);
@@ -149,7 +150,10 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     font-family: var(--font-display);
     letter-spacing: -0.02em;
   }
@@ -167,29 +171,41 @@
 }
 
 @utility glow-neon {
-  box-shadow: 0 0 0 1px color-mix(in oklab, var(--neon) 40%, transparent),
-              0 8px 40px -8px color-mix(in oklab, var(--neon) 45%, transparent);
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, var(--neon) 40%, transparent),
+    0 8px 40px -8px color-mix(in oklab, var(--neon) 45%, transparent);
 }
 
 @utility glow-gold {
-  box-shadow: 0 0 0 1px color-mix(in oklab, var(--krait) 30%, transparent),
-              0 8px 40px -8px color-mix(in oklab, var(--krait) 35%, transparent);
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, var(--krait) 30%, transparent),
+    0 8px 40px -8px color-mix(in oklab, var(--krait) 35%, transparent);
 }
 
 @utility glass-card {
-  background-color: oklch(1.00 0.000 0 / 70%);
+  background-color: oklch(1 0 0 / 70%);
   backdrop-filter: blur(16px);
   border: 1px solid oklch(0.18 0.008 260 / 8%);
 }
 
 @keyframes pulse-soft {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.6; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
 }
 
 @keyframes typing {
-  0%, 100% { opacity: 0.2; }
-  50% { opacity: 1; }
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
 @utility animate-pulse-soft {
@@ -200,14 +216,42 @@
   animation: typing 1.4s infinite;
 }
 
+/* ── Hero entrance animation ── */
+@keyframes hero-enter {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.hero-enter {
+  animation: hero-enter 1.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
 @keyframes float {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-10px) rotate(3deg); }
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(3deg);
+  }
 }
 
 @keyframes float-reverse {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(10px) rotate(-3deg); }
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(10px) rotate(-3deg);
+  }
 }
 
 @utility animate-float {
@@ -241,10 +285,47 @@
 }
 
 @utility no-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
   &::-webkit-scrollbar {
     display: none; /* Chrome, Safari and Opera */
   }
 }
 
+/* ── Scroll-reveal animation ── */
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scroll-reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger children — add delay-100, delay-200 etc. via inline style or nth-child */
+.scroll-reveal[data-delay="1"] {
+  transition-delay: 0.1s;
+}
+.scroll-reveal[data-delay="2"] {
+  transition-delay: 0.2s;
+}
+.scroll-reveal[data-delay="3"] {
+  transition-delay: 0.3s;
+}
+.scroll-reveal[data-delay="4"] {
+  transition-delay: 0.4s;
+}
