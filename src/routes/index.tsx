@@ -1183,7 +1183,7 @@ export function Footer() {
           </p>
         </div>
 
-        <div className="flex flex-wrap gap-x-12 gap-y-6">
+        <div className="grid grid-cols-3 gap-x-4 sm:gap-x-8 md:gap-x-12 gap-y-10 w-full md:w-auto">
           <div className="space-y-3">
             <h4 className="font-bold text-foreground uppercase tracking-wider text-[10px]">
               Product
